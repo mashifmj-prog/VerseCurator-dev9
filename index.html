@@ -11,13 +11,14 @@
             --primary-color: #667eea;
             --secondary-color: #764ba2;
             --text-primary: #2c3e50;
-            --text-secondary: #7f8c8d;
+            --text-secondary: #5a6c7d;
             --bg-primary: #ffffff;
             --bg-secondary: #f8f9fa;
             --bg-tertiary: #ecf0f1;
             --card-bg: #ffffff;
-            --border-color: #e9ecef;
+            --border-color: #e1e5e9;
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
             --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --success-color: #28a745;
             --warning-color: #ffc107;
@@ -27,11 +28,11 @@
         .dark-mode {
             --primary-color: #8b9dc3;
             --text-primary: #ecf0f1;
+            --text-secondary: #b0b8c5;
             --bg-primary: #1a1a2e;
             --bg-secondary: #16213e;
             --card-bg: #1e2a47;
             --border-color: #2c3e50;
-            --text-secondary: #b0b8c5;
         }
 
         * {
@@ -52,6 +53,18 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 1rem;
+        }
+
+        @media (min-width: 1200px) {
+            .app-container {
+                max-width: 1000px;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .app-container {
+                max-width: 1200px;
+            }
         }
 
         .app-header {
@@ -324,11 +337,16 @@
 
         .verse-card {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
             border: 1px solid var(--border-color);
             text-align: center;
+            transition: all 0.3s;
+        }
+
+        .verse-card:hover {
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
         }
 
         .verse-content {
@@ -792,6 +810,7 @@
             align-items: center;
             justify-content: center;
             padding: 1rem;
+            overflow-y: auto;
         }
 
         .modal-content {
@@ -801,6 +820,8 @@
             max-width: 500px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             overflow: hidden;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-header {
@@ -809,6 +830,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--card-bg);
+            z-index: 10;
         }
 
         .modal-header h3 {
@@ -954,6 +979,13 @@
             margin-top: 1rem;
         }
 
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
         .history-list {
             display: flex;
             flex-direction: column;
@@ -1091,6 +1123,125 @@
             color: var(--text-secondary);
         }
 
+        /* Share Modal Styles */
+        .share-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .share-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .share-option:hover {
+            border-color: var(--primary-color);
+        }
+
+        .share-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .share-option input {
+            display: none;
+        }
+
+        .share-option label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .share-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .share-info {
+            flex: 1;
+        }
+
+        .share-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .share-description {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Image Preview Styles */
+        .image-preview-container {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .image-preview {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            margin-bottom: 1rem;
+        }
+
+        .theme-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+
+        .theme-option {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .theme-option.selected {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .theme-option:hover {
+            border-color: var(--primary-color);
+        }
+
+        /* Confirmation Modal */
+        .confirmation-modal .modal-actions {
+            justify-content: center;
+        }
+
+        .confirmation-text {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
         @media (max-width: 768px) {
             .panel-grid {
                 grid-template-columns: 1fr;
@@ -1130,6 +1281,10 @@
             .history-actions {
                 align-self: flex-end;
             }
+            
+            .modal-content {
+                max-height: 85vh;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1139,6 +1294,12 @@
             
             .bible-navigation {
                 flex-direction: column;
+            }
+            
+            .feed-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
             }
         }
     </style>
@@ -1279,9 +1440,6 @@
                         <button class="btn btn-outline" id="scheduleButton">
                             <i class="fas fa-clock"></i>Set Reminder
                         </button>
-                        <button class="btn btn-secondary" id="historyButton">
-                            <i class="fas fa-history"></i>History
-                        </button>
                     </div>
                 </div>
             </section>
@@ -1306,6 +1464,13 @@
                     <div class="demo-notice">
                         <i class="fas fa-info-circle"></i>
                         <strong>Verse History:</strong> View and manage your previously viewed verses.
+                    </div>
+                    
+                    <div class="history-header">
+                        <h4>Recently Viewed Verses</h4>
+                        <button class="btn btn-outline" id="clearAllHistory">
+                            <i class="fas fa-trash"></i>Clear All
+                        </button>
                     </div>
                     
                     <div class="history-list" id="historyList">
@@ -1482,6 +1647,101 @@
         </div>
     </div>
 
+    <!-- Share Modal -->
+    <div class="modal" id="shareModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-share-alt"></i>Share Verse</h3>
+                <button class="modal-close" id="closeShareModal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="share-options" id="shareOptions">
+                    <div class="share-option" data-type="text">
+                        <input type="radio" id="shareText" name="shareType" value="text" checked>
+                        <label for="shareText">
+                            <div class="share-icon">
+                                <i class="fas fa-font"></i>
+                            </div>
+                            <div class="share-info">
+                                <div class="share-title">Share as Text</div>
+                                <div class="share-description">Share verse text with link (visible to receiver)</div>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="share-option" data-type="image">
+                        <input type="radio" id="shareImage" name="shareType" value="image">
+                        <label for="shareImage">
+                            <div class="share-icon">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <div class="share-info">
+                                <div class="share-title">Share as Image</div>
+                                <div class="share-description">Create beautiful image with verse (no link)</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Text Share Content -->
+                <div id="textShareContent">
+                    <div class="form-group">
+                        <label>Preview</label>
+                        <div class="post-verse-preview" id="textPreview">
+                            <!-- Text preview will appear here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Share Content -->
+                <div id="imageShareContent" style="display: none;">
+                    <div class="theme-selector" id="themeSelector">
+                        <button class="theme-option selected" data-theme="classic">Classic</button>
+                        <button class="theme-option" data-theme="colorful">Colorful</button>
+                        <button class="theme-option" data-theme="sunrise">Sunrise</button>
+                        <button class="theme-option" data-theme="light">Light</button>
+                        <button class="theme-option" data-theme="dark">Dark</button>
+                        <button class="theme-option" data-theme="parchment">Parchment</button>
+                        <button class="theme-option" data-theme="gradient">Gradient</button>
+                    </div>
+                    
+                    <div class="image-preview-container">
+                        <canvas id="imagePreview" width="600" height="400" style="max-width: 100%; height: auto; border-radius: 12px; display: none;"></canvas>
+                        <img id="imagePreviewFallback" class="image-preview" src="" alt="Verse Image Preview" style="display: none;">
+                        <div id="imagePreviewPlaceholder" style="padding: 2rem; text-align: center; color: var(--text-secondary); background: var(--bg-secondary); border-radius: 12px;">
+                            <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                            <p>Image preview will appear here</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="cancelShare">Cancel</button>
+                    <button class="btn btn-primary" id="executeShare">Share</button>
+                    <button class="btn btn-outline" id="downloadImage" style="display: none;">
+                        <i class="fas fa-download"></i>Download Image
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal confirmation-modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-triangle"></i>Confirm Action</h3>
+                <button class="modal-close" id="closeConfirmationModal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p class="confirmation-text" id="confirmationText">Are you sure you want to clear all verse history? This action cannot be undone.</p>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="cancelConfirmation">Cancel</button>
+                    <button class="btn btn-primary" id="confirmAction">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Notification System -->
     <div class="notification" id="notification">
         <div class="notification-icon">
@@ -1548,6 +1808,52 @@
             }
         ];
 
+        // Image theme configurations
+        const imageThemes = {
+            classic: {
+                background: "#f8f4e9",
+                text: "#3a2c1a",
+                accent: "#8b7355",
+                border: "#d4c9b8"
+            },
+            colorful: {
+                background: "linear-gradient(135deg, #667eea, #764ba2)",
+                text: "#ffffff",
+                accent: "#ffd700",
+                border: "rgba(255,255,255,0.3)"
+            },
+            sunrise: {
+                background: "linear-gradient(135deg, #ff7e5f, #feb47b)",
+                text: "#2c1810",
+                accent: "#ff6b6b",
+                border: "rgba(255,255,255,0.4)"
+            },
+            light: {
+                background: "#ffffff",
+                text: "#2c3e50",
+                accent: "#3498db",
+                border: "#e9ecef"
+            },
+            dark: {
+                background: "#1a1a2e",
+                text: "#ecf0f1",
+                accent: "#8b9dc3",
+                border: "#2c3e50"
+            },
+            parchment: {
+                background: "#f5e8c8",
+                text: "#5d4037",
+                accent: "#795548",
+                border: "#d7ccc8"
+            },
+            gradient: {
+                background: "linear-gradient(135deg, #74b9ff, #0984e3)",
+                text: "#ffffff",
+                accent: "#ffeaa7",
+                border: "rgba(255,255,255,0.2)"
+            }
+        };
+
         // App state
         let appState = {
             currentPeriod: 'morning',
@@ -1591,7 +1897,6 @@
         const nextVerse = document.getElementById('nextVerse');
         const shareButton = document.getElementById('shareButton');
         const scheduleButton = document.getElementById('scheduleButton');
-        const historyButton = document.getElementById('historyButton');
         const versesViewed = document.getElementById('versesViewed');
         const versesShared = document.getElementById('versesShared');
         const versesFavorited = document.getElementById('versesFavorited');
@@ -1601,6 +1906,7 @@
         const toggleHistory = document.getElementById('toggleHistory');
         const historyContent = document.getElementById('historyContent');
         const historyList = document.getElementById('historyList');
+        const clearAllHistory = document.getElementById('clearAllHistory');
         const socialTabs = document.querySelectorAll('.social-tab');
         const tabContents = document.querySelectorAll('.tab-content');
         const createPost = document.getElementById('createPost');
@@ -1628,6 +1934,25 @@
         const timeSelection = document.getElementById('timeSelection');
         const dateSelection = document.getElementById('dateSelection');
         const daySelection = document.getElementById('daySelection');
+        const shareModal = document.getElementById('shareModal');
+        const closeShareModal = document.getElementById('closeShareModal');
+        const cancelShare = document.getElementById('cancelShare');
+        const executeShare = document.getElementById('executeShare');
+        const downloadImage = document.getElementById('downloadImage');
+        const shareOptions = document.querySelectorAll('.share-option');
+        const textShareContent = document.getElementById('textShareContent');
+        const imageShareContent = document.getElementById('imageShareContent');
+        const textPreview = document.getElementById('textPreview');
+        const themeSelector = document.getElementById('themeSelector');
+        const themeOptions = document.querySelectorAll('.theme-option');
+        const imagePreview = document.getElementById('imagePreview');
+        const imagePreviewFallback = document.getElementById('imagePreviewFallback');
+        const imagePreviewPlaceholder = document.getElementById('imagePreviewPlaceholder');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const closeConfirmationModal = document.getElementById('closeConfirmationModal');
+        const cancelConfirmation = document.getElementById('cancelConfirmation');
+        const confirmAction = document.getElementById('confirmAction');
+        const confirmationText = document.getElementById('confirmationText');
         const notification = document.getElementById('notification');
         const notificationTitle = document.getElementById('notificationTitle');
         const notificationMessage = document.getElementById('notificationMessage');
@@ -1704,13 +2029,18 @@
             
             // Verse actions
             favoriteVerse.addEventListener('click', toggleFavorite);
-            shareButton.addEventListener('click', shareVerse);
+            shareButton.addEventListener('click', openShareModal);
             scheduleButton.addEventListener('click', () => openReminderModal());
-            historyButton.addEventListener('click', toggleHistorySection);
+            
+            // History features
+            toggleHistory.addEventListener('click', toggleHistorySection);
+            clearAllHistory.addEventListener('click', () => showConfirmation(
+                'Are you sure you want to clear all verse history? This action cannot be undone.',
+                clearAllHistoryConfirmed
+            ));
             
             // Social features
             toggleSocial.addEventListener('click', toggleSocialSection);
-            toggleHistory.addEventListener('click', toggleHistorySection);
             
             // Tab switching
             socialTabs.forEach(tab => {
@@ -1731,16 +2061,90 @@
             cancelReminder.addEventListener('click', closeReminderModalHandler);
             saveReminder.addEventListener('click', saveReminderHandler);
             
-            // Reminder options
+            // Reminder options - toggle behavior
             reminderOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    const frequency = option.getAttribute('data-frequency');
-                    updateReminderOptions(frequency);
+                option.addEventListener('click', function() {
+                    const frequency = this.getAttribute('data-frequency');
+                    const input = this.querySelector('input');
+                    
+                    if (input.checked) {
+                        // If already selected, deselect it
+                        input.checked = false;
+                        this.classList.remove('selected');
+                        updateReminderOptions(null);
+                    } else {
+                        // Deselect all others and select this one
+                        reminderOptions.forEach(opt => {
+                            opt.classList.remove('selected');
+                            opt.querySelector('input').checked = false;
+                        });
+                        
+                        input.checked = true;
+                        this.classList.add('selected');
+                        updateReminderOptions(frequency);
+                    }
                 });
             });
             
+            // Share functionality
+            closeShareModal.addEventListener('click', closeShareModalHandler);
+            cancelShare.addEventListener('click', closeShareModalHandler);
+            executeShare.addEventListener('click', executeShareHandler);
+            downloadImage.addEventListener('click', downloadImageHandler);
+            
+            // Share options
+            shareOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    
+                    // Update selected state
+                    shareOptions.forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.querySelector('input').checked = false;
+                    });
+                    
+                    this.classList.add('selected');
+                    this.querySelector('input').checked = true;
+                    
+                    // Show/hide relevant content
+                    if (type === 'text') {
+                        textShareContent.style.display = 'block';
+                        imageShareContent.style.display = 'none';
+                        downloadImage.style.display = 'none';
+                        executeShare.textContent = 'Share Text';
+                    } else {
+                        textShareContent.style.display = 'none';
+                        imageShareContent.style.display = 'block';
+                        downloadImage.style.display = 'block';
+                        executeShare.textContent = 'Share Image';
+                        generateImagePreview();
+                    }
+                });
+            });
+            
+            // Theme selection
+            themeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    themeOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    generateImagePreview();
+                });
+            });
+            
+            // Confirmation modal
+            closeConfirmationModal.addEventListener('click', closeConfirmationModalHandler);
+            cancelConfirmation.addEventListener('click', closeConfirmationModalHandler);
+            confirmAction.addEventListener('click', confirmActionHandler);
+            
             // Notification
             notificationClose.addEventListener('click', hideNotification);
+            
+            // Modal backdrop clicks
+            document.addEventListener('click', function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                }
+            });
             
             // Auto update countdown
             setInterval(updateCountdown, 1000);
@@ -1943,45 +2347,209 @@
             );
         }
 
-        // Share current verse
-        function shareVerse() {
+        // Open share modal
+        function openShareModal() {
             const verses = sampleVerses[appState.currentPeriod];
             if (verses.length === 0) return;
             
             const verse = verses[appState.currentVerseIndex];
             
-            // In a real app, this would use the Web Share API or copy to clipboard
+            // Update text preview
+            textPreview.innerHTML = `
+                <div class="post-verse-text">${verse.text}</div>
+                <div class="post-verse-reference">${verse.reference} (${appState.translation.toUpperCase()})</div>
+                <div style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-secondary);">
+                    Shared via VerseCurator
+                </div>
+            `;
+            
+            // Reset to text share by default
+            shareOptions.forEach(opt => {
+                opt.classList.remove('selected');
+                opt.querySelector('input').checked = false;
+            });
+            
+            document.querySelector('.share-option[data-type="text"]').classList.add('selected');
+            document.querySelector('#shareText').checked = true;
+            
+            textShareContent.style.display = 'block';
+            imageShareContent.style.display = 'none';
+            downloadImage.style.display = 'none';
+            executeShare.textContent = 'Share Text';
+            
+            shareModal.style.display = 'flex';
+        }
+
+        // Close share modal
+        function closeShareModalHandler() {
+            shareModal.style.display = 'none';
+        }
+
+        // Execute share based on selected type
+        function executeShareHandler() {
+            const shareType = document.querySelector('input[name="shareType"]:checked').value;
+            const verses = sampleVerses[appState.currentPeriod];
+            if (verses.length === 0) return;
+            
+            const verse = verses[appState.currentVerseIndex];
+            
+            if (shareType === 'text') {
+                shareAsText(verse);
+            } else {
+                shareAsImage(verse);
+            }
+        }
+
+        // Share as text
+        function shareAsText(verse) {
+            const textToShare = `${verse.text} - ${verse.reference}\n\nShared via VerseCurator\nhttps://versecurator.app`;
+            
             if (navigator.share) {
                 navigator.share({
                     title: 'Bible Verse',
-                    text: `${verse.text} - ${verse.reference}`,
-                    url: window.location.href
+                    text: textToShare,
+                    url: 'https://versecurator.app'
                 })
                 .then(() => {
                     appState.sharedVerses++;
                     versesShared.textContent = appState.sharedVerses;
                     saveState();
-                    showNotification('Shared Successfully', 'Verse shared with others!', 'success');
+                    closeShareModalHandler();
+                    showNotification('Shared Successfully', 'Verse shared as text!', 'success');
                 })
                 .catch(error => {
                     console.log('Error sharing:', error);
-                    showNotification('Share Failed', 'Could not share the verse.', 'error');
                 });
             } else {
                 // Fallback: copy to clipboard
-                const textToCopy = `${verse.text} - ${verse.reference}`;
-                navigator.clipboard.writeText(textToCopy)
+                navigator.clipboard.writeText(textToShare)
                     .then(() => {
                         appState.sharedVerses++;
                         versesShared.textContent = appState.sharedVerses;
                         saveState();
+                        closeShareModalHandler();
                         showNotification('Copied to Clipboard', 'Verse text copied to clipboard!', 'success');
                     })
                     .catch(err => {
                         console.error('Failed to copy: ', err);
-                        showNotification('Copy Failed', 'Could not copy verse to clipboard.', 'error');
+                        showNotification('Share Failed', 'Could not share the verse.', 'error');
                     });
             }
+        }
+
+        // Share as image
+        function shareAsImage(verse) {
+            // In a real app, this would share the generated image
+            // For now, we'll just show a success message
+            appState.sharedVerses++;
+            versesShared.textContent = appState.sharedVerses;
+            saveState();
+            closeShareModalHandler();
+            showNotification('Image Shared', 'Verse shared as image!', 'success');
+        }
+
+        // Generate image preview
+        function generateImagePreview() {
+            const verses = sampleVerses[appState.currentPeriod];
+            if (verses.length === 0) return;
+            
+            const verse = verses[appState.currentVerseIndex];
+            const selectedTheme = document.querySelector('.theme-option.selected').getAttribute('data-theme');
+            const theme = imageThemes[selectedTheme];
+            
+            // For demonstration, we'll create a simple image representation
+            // In a real app, you would use Canvas API to generate an actual image
+            
+            // Hide placeholder and show canvas
+            imagePreviewPlaceholder.style.display = 'none';
+            imagePreview.style.display = 'block';
+            
+            const ctx = imagePreview.getContext('2d');
+            const width = imagePreview.width;
+            const height = imagePreview.height;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw background
+            if (theme.background.includes('gradient')) {
+                // For gradient backgrounds
+                const gradient = ctx.createLinearGradient(0, 0, width, height);
+                if (theme.background.includes('#667eea')) {
+                    gradient.addColorStop(0, '#667eea');
+                    gradient.addColorStop(1, '#764ba2');
+                } else if (theme.background.includes('#ff7e5f')) {
+                    gradient.addColorStop(0, '#ff7e5f');
+                    gradient.addColorStop(1, '#feb47b');
+                } else {
+                    gradient.addColorStop(0, '#74b9ff');
+                    gradient.addColorStop(1, '#0984e3');
+                }
+                ctx.fillStyle = gradient;
+            } else {
+                ctx.fillStyle = theme.background;
+            }
+            ctx.fillRect(0, 0, width, height);
+            
+            // Draw border
+            ctx.strokeStyle = theme.border;
+            ctx.lineWidth = 4;
+            ctx.strokeRect(2, 2, width - 4, height - 4);
+            
+            // Draw verse text
+            ctx.fillStyle = theme.text;
+            ctx.font = 'bold 24px Playfair Display';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // Wrap text
+            const maxWidth = width - 80;
+            const lineHeight = 32;
+            const words = verse.text.split(' ');
+            let line = '';
+            let lines = [];
+            let y = height / 2 - (words.length * lineHeight) / 3;
+            
+            for (let i = 0; i < words.length; i++) {
+                const testLine = line + words[i] + ' ';
+                const metrics = ctx.measureText(testLine);
+                const testWidth = metrics.width;
+                
+                if (testWidth > maxWidth && i > 0) {
+                    lines.push(line);
+                    line = words[i] + ' ';
+                } else {
+                    line = testLine;
+                }
+            }
+            lines.push(line);
+            
+            // Draw lines
+            lines.forEach((line, index) => {
+                ctx.fillText(line, width / 2, y + (index * lineHeight));
+            });
+            
+            // Draw reference
+            ctx.font = 'italic 20px Inter';
+            ctx.fillText(verse.reference, width / 2, y + (lines.length * lineHeight) + 20);
+            
+            // Draw attribution
+            ctx.font = '14px Inter';
+            ctx.fillStyle = theme.accent;
+            ctx.fillText('Shared via VerseCurator', width / 2, height - 30);
+            
+            // Update fallback image src
+            imagePreviewFallback.src = imagePreview.toDataURL();
+        }
+
+        // Download image
+        function downloadImageHandler() {
+            const link = document.createElement('a');
+            link.download = 'verse-image.png';
+            link.href = imagePreview.toDataURL();
+            link.click();
+            
+            showNotification('Image Downloaded', 'Verse image saved to your device!', 'success');
         }
 
         // Open reminder modal
@@ -1997,7 +2565,14 @@
         // Save reminder
         function saveReminderHandler() {
             const title = reminderTitle.value || 'Read Bible Verse';
-            const frequency = document.querySelector('input[name="reminderFrequency"]:checked').value;
+            const frequencyInput = document.querySelector('input[name="reminderFrequency"]:checked');
+            
+            if (!frequencyInput) {
+                showNotification('Selection Required', 'Please select a reminder frequency.', 'error');
+                return;
+            }
+            
+            const frequency = frequencyInput.value;
             const time = reminderTime.value;
             const date = reminderDate.value;
             const day = reminderDay.value;
@@ -2024,17 +2599,8 @@
 
         // Update reminder options based on frequency
         function updateReminderOptions(frequency) {
-            // Update selected state
-            reminderOptions.forEach(option => {
-                if (option.getAttribute('data-frequency') === frequency) {
-                    option.classList.add('selected');
-                } else {
-                    option.classList.remove('selected');
-                }
-            });
-            
             // Show/hide relevant fields
-            timeSelection.style.display = 'block';
+            timeSelection.style.display = frequency ? 'block' : 'none';
             dateSelection.style.display = frequency === 'once' ? 'block' : 'none';
             daySelection.style.display = frequency === 'weekly' ? 'block' : 'none';
         }
@@ -2107,8 +2673,8 @@
             if (navigator.share) {
                 navigator.share({
                     title: 'Bible Verse',
-                    text: `${item.text} - ${item.reference}`,
-                    url: window.location.href
+                    text: `${item.text} - ${item.reference}\n\nShared via VerseCurator\nhttps://versecurator.app`,
+                    url: 'https://versecurator.app'
                 })
                 .then(() => {
                     appState.sharedVerses++;
@@ -2121,7 +2687,7 @@
                 });
             } else {
                 // Fallback: copy to clipboard
-                const textToCopy = `${item.text} - ${item.reference}`;
+                const textToCopy = `${item.text} - ${item.reference}\n\nShared via VerseCurator\nhttps://versecurator.app`;
                 navigator.clipboard.writeText(textToCopy)
                     .then(() => {
                         appState.sharedVerses++;
@@ -2141,6 +2707,36 @@
             renderHistory();
             saveState();
             showNotification('History Item Deleted', 'The verse has been removed from your history.', 'info');
+        }
+
+        // Clear all history confirmed
+        function clearAllHistoryConfirmed() {
+            appState.verseHistory = [];
+            renderHistory();
+            saveState();
+            showNotification('History Cleared', 'All verse history has been cleared.', 'info');
+        }
+
+        // Show confirmation dialog
+        function showConfirmation(message, callback) {
+            confirmationText.textContent = message;
+            confirmationModal.style.display = 'flex';
+            
+            // Store callback for when user confirms
+            confirmAction.onclick = function() {
+                callback();
+                closeConfirmationModalHandler();
+            };
+        }
+
+        // Close confirmation modal
+        function closeConfirmationModalHandler() {
+            confirmationModal.style.display = 'none';
+        }
+
+        // Confirm action handler
+        function confirmActionHandler() {
+            // This is set dynamically in showConfirmation
         }
 
         // Toggle social section visibility
@@ -2327,13 +2923,13 @@
 
         // Share a post
         function sharePost(post) {
-            const textToShare = `${post.verse.text} - ${post.verse.reference}`;
+            const textToShare = `${post.verse.text} - ${post.verse.reference}\n\nShared via VerseCurator\nhttps://versecurator.app`;
             
             if (navigator.share) {
                 navigator.share({
                     title: 'Bible Verse',
                     text: textToShare,
-                    url: window.location.href
+                    url: 'https://versecurator.app'
                 })
                 .then(() => {
                     showNotification('Shared Successfully', 'Post shared with others!', 'success');
