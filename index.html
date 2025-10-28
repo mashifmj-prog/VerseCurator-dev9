@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerseCurator - Beautiful Bible Engagement</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #ecf0f1;
+            --card-bg: #ffffff;
+            --border-color: #e9ecef;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --error-color: #dc3545;
+        }
+
+        .dark-mode {
+            --primary-color: #8b9dc3;
+            --text-primary: #ecf0f1;
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --card-bg: #1e2a47;
+            --border-color: #2c3e50;
+            --text-secondary: #b0b8c5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
+        }
+
+        .app-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .app-header {
+            margin-bottom: 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .title-group h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .app-tagline {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--primary-color);
+        }
+
+        .theme-toggle i {
+            position: absolute;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .theme-toggle .fa-sun {
+            opacity: 0;
+            transform: rotate(90deg);
+        }
+
+        .dark-mode .theme-toggle .fa-moon {
+            opacity: 0;
+            transform: rotate(-90deg);
+        }
+
+        .dark-mode .theme-toggle .fa-sun {
+            opacity: 1;
+            transform: rotate(0);
+        }
+
+        .mode-indicator {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .mode-indicator.auto {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .mode-indicator.manual {
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid #ffd700;
+            color: #ffd700;
+        }
+
+        .countdown {
+            font-weight: bold;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .time-period-indicator {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .period {
+            flex: 1;
+            min-width: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.75rem 0.5rem;
+            border-radius: 8px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .period:hover {
+            border-color: var(--primary-color);
+        }
+
+        .period.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .period.manual-override {
+            border: 2px solid #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .period i {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .period span {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .period small {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+
+        .app-main {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .control-panel {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-select {
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
+        }
+
+        .control-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .bible-navigation {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .bible-select {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .search-container {
+            margin-bottom: 0;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .verse-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .verse-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .verse-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .verse-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .verse-time-badge, .verse-translation-badge {
+            padding: 0.375rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .verse-time-badge {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary-color);
+        }
+
+        .verse-translation-badge {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+        }
+
+        .verse-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            line-height: 1.8;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .verse-reference {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .verse-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .action-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .action-buttons-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--text-secondary);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .stats-section {
+            margin-top: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .collapsible-section {
+            margin-top: 1rem;
+        }
+
+        .collapsible-btn {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .collapsible-btn:hover {
+            background: var(--bg-secondary);
+        }
+
+        .collapsible-btn i {
+            transition: transform 0.3s;
+        }
+
+        .collapsible-btn.active i {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            display: none;
+            margin-top: 1rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .demo-notice {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+
+        .social-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .social-tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .social-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .feed-header h4 {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .feed-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feed-post {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .post-user-info {
+            flex: 1;
+        }
+
+        .post-user-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .post-time {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .post-verse {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .post-verse-text {
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .post-verse-reference {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .post-caption {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 1rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .post-action:hover {
+            color: var(--primary-color);
+        }
+
+        .post-action.liked {
+            color: #e74c3c;
+        }
+
+        .profile-header {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-avatar {
+            flex-shrink: 0;
+        }
+
+        .avatar-placeholder {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.75rem;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-info h4 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .profile-info p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .profile-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-stat strong {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-stat span {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .profile-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .post-verse-preview {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
+            resize: vertical;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .notification {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            background: var(--card-bg);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-left: 4px solid var(--primary-color);
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transform: translateX(120%);
+            transition: transform 0.3s;
+            max-width: 350px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left-color: var(--success-color);
+        }
+
+        .notification.error {
+            border-left-color: var(--error-color);
+        }
+
+        .notification.warning {
+            border-left-color: var(--warning-color);
+        }
+
+        .notification-icon {
+            font-size: 1.25rem;
+        }
+
+        .notification.success .notification-icon {
+            color: var(--success-color);
+        }
+
+        .notification.error .notification-icon {
+            color: var(--error-color);
+        }
+
+        .notification.warning .notification-icon {
+            color: var(--warning-color);
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .notification-message {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .panel-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .action-buttons-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .time-period-indicator {
+                flex-wrap: wrap;
+            }
+            
+            .period {
+                min-width: calc(50% - 0.5rem);
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .period {
+                min-width: 100%;
+            }
+            
+            .bible-navigation {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo"><i class="fas fa-scroll"></i></div>
+                    <div class="title-group">
+                        <h1>VerseCurator</h1>
+                        <p class="app-tagline">Curate • Share • Inspire</p>
+                    </div>
+                </div>
+                <div class="header-controls">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mode-indicator auto" id="modeIndicator">
+                <span id="modeText">Auto Mode - Morning</span>
+                <span class="countdown" id="countdown"></span>
+            </div>
+            
+            <div class="time-period-indicator">
+                <div class="period active" data-period="morning">
+                    <i class="fas fa-sunrise"></i>
+                    <span>Morning</span>
+                    <small>5AM-12PM</small>
+                </div>
+                <div class="period" data-period="day">
+                    <i class="fas fa-sun"></i>
+                    <span>Day</span>
+                    <small>12PM-3PM</small>
+                </div>
+                <div class="period" data-period="afternoon">
+                    <i class="fas fa-cloud-sun"></i>
+                    <span>Afternoon</span>
+                    <small>3PM-6PM</small>
+                </div>
+                <div class="period" data-period="evening">
+                    <i class="fas fa-sunset"></i>
+                    <span>Evening</span>
+                    <small>6PM-10PM</small>
+                </div>
+                <div class="period" data-period="night">
+                    <i class="fas fa-moon"></i>
+                    <span>Night</span>
+                    <small>10PM-5AM</small>
+                </div>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <!-- Control Panel -->
+            <section class="control-panel">
+                <div class="panel-grid">
+                    <div class="control-group">
+                        <label class="control-label"><i class="fas fa-bible"></i>Translation</label>
+                        <select class="control-select" id="translationSelect">
+                            <option value="web">WEB</option>
+                            <option value="kjv">KJV</option>
+                            <option value="niv">NIV</option>
+                            <option value="esv">ESV</option>
+                            <option value="nlt">NLT</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label"><i class="fas fa-clock"></i>Display Mode</label>
+                        <select class="control-select" id="displayModeSelect">
+                            <option value="auto">Auto (Time-based)</option>
+                            <option value="manual">Manual</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bible Navigation -->
+            <section class="control-panel">
+                <div class="bible-navigation">
+                    <select class="bible-select" id="bookSelect">
+                        <option value="Genesis">Genesis</option>
+                        <option value="Psalms">Psalms</option>
+                        <option value="Matthew">Matthew</option>
+                        <option value="John">John</option>
+                        <option value="Romans">Romans</option>
+                    </select>
+                    <select class="bible-select" id="chapterSelect">
+                        <!-- Chapters will be populated dynamically -->
+                    </select>
+                    <select class="bible-select" id="verseSelect">
+                        <!-- Verses will be populated dynamically -->
+                    </select>
+                </div>
+                <div class="search-container">
+                    <input type="text" class="search-input" id="verseSearch" placeholder="Search verses (e.g., John 3:16)">
+                </div>
+            </section>
+
+            <!-- Verse Display -->
+            <section class="verse-section">
+                <div class="verse-card">
+                    <div class="verse-content">
+                        <div class="verse-header">
+                            <span class="verse-time-badge" id="verseTimeBadge">🌅 Morning</span>
+                            <span class="verse-translation-badge" id="verseTranslationBadge">WEB</span>
+                        </div>
+                        <p class="verse-text" id="verseText">Loading verse...</p>
+                        <p class="verse-reference" id="verseReference"></p>
+                        <div class="verse-actions">
+                            <button class="action-btn favorite-btn" id="favoriteVerse">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <button class="action-btn note-btn" id="addNote">
+                                <i class="far fa-sticky-note"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <div class="action-buttons-row">
+                        <button class="btn btn-secondary" id="previousVerse">
+                            <i class="fas fa-arrow-left"></i>Previous Verse
+                        </button>
+                        <button class="btn btn-primary" id="nextVerse">
+                            <i class="fas fa-arrow-right"></i>Next Verse
+                        </button>
+                    </div>
+                    <div class="action-buttons-row">
+                        <button class="btn btn-secondary" id="shareButton">
+                            <i class="fas fa-share-alt"></i>Share
+                        </button>
+                        <button class="btn btn-outline" id="scheduleButton">
+                            <i class="fas fa-clock"></i>Set Reminder
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-icon"><i class="fas fa-eye"></i></div><div class="stat-content"><div class="stat-number" id="versesViewed">0</div><div class="stat-label">Viewed</div></div></div>
+                    <div class="stat-card"><div class="stat-icon"><i class="fas fa-share"></i></div><div class="stat-content"><div class="stat-number" id="versesShared">0</div><div class="stat-label">Shared</div></div></div>
+                    <div class="stat-card"><div class="stat-icon"><i class="fas fa-heart"></i></div><div class="stat-content"><div class="stat-number" id="versesFavorited">0</div><div class="stat-label">Favorites</div></div></div>
+                    <div class="stat-card"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-content"><div class="stat-number" id="currentStreak">0</div><div class="stat-label">Day Streak</div></div></div>
+                </div>
+            </section>
+
+            <!-- Community Section -->
+            <section class="collapsible-section">
+                <button class="collapsible-btn" id="toggleSocial">
+                    <span><i class="fas fa-users"></i>VerseCurator Community</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="collapsible-content" id="socialContent">
+                    <div class="demo-notice">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Community Features:</strong> Share verses and connect with others.
+                    </div>
+                    
+                    <div class="social-tabs">
+                        <button class="social-tab active" data-tab="feed">Verse Feed</button>
+                        <button class="social-tab" data-tab="profile">My Profile</button>
+                    </div>
+
+                    <!-- Feed Tab -->
+                    <div class="tab-content active" id="feedTab">
+                        <div class="feed-header">
+                            <h4>Community Verse Sharing</h4>
+                            <button class="btn btn-primary" id="createPost">
+                                <i class="fas fa-plus"></i>Share Current Verse
+                            </button>
+                        </div>
+                        <div class="feed-container" id="feedContainer">
+                            <!-- Posts will appear here -->
+                        </div>
+                    </div>
+
+                    <!-- Profile Tab -->
+                    <div class="tab-content" id="profileTab">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <div class="avatar-placeholder" id="userAvatar">VL</div>
+                            </div>
+                            <div class="profile-info">
+                                <h4 id="profileName">Verse Lover</h4>
+                                <p id="profileBio">Sharing daily inspiration from Scripture</p>
+                                <div class="profile-stats">
+                                    <div class="profile-stat"><strong id="postsCount">0</strong><span>Posts</span></div>
+                                    <div class="profile-stat"><strong id="likesCount">0</strong><span>Likes</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-posts" id="profilePosts">
+                            <!-- User's posts will appear here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Community Modals -->
+    <div class="modal" id="createPostModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i>Share Verse with Community</h3>
+                <button class="modal-close" id="closePostModal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="post-verse-preview" id="postVersePreview"></div>
+                <div class="form-group">
+                    <label>Add your thoughts (optional)</label>
+                    <textarea class="form-input" id="postCaption" placeholder="Share what this verse means to you..." rows="3"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="cancelPost">Cancel</button>
+                    <button class="btn btn-primary" id="publishPost">Share with Community</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <div class="notification-content">
+            <div class="notification-title" id="notificationTitle">Notification</div>
+            <div class="notification-message" id="notificationMessage">This is a notification message.</div>
+        </div>
+        <button class="notification-close" id="notificationClose"><i class="fas fa-times"></i></button>
+    </div>
+
+    <script>
+        // Sample verse data
+        const sampleVerses = {
+            morning: [
+                { text: "Let the morning bring me word of your unfailing love, for I have put my trust in you. Show me the way I should go, for to you I entrust my life.", reference: "Psalm 143:8", translation: "WEB" },
+                { text: "The steadfast love of the Lord never ceases; his mercies never come to an end; they are new every morning; great is your faithfulness.", reference: "Lamentations 3:22-23", translation: "WEB" },
+                { text: "Satisfy us in the morning with your steadfast love, that we may rejoice and be glad all our days.", reference: "Psalm 90:14", translation: "WEB" }
+            ],
+            day: [
+                { text: "Your word is a lamp to my feet and a light to my path.", reference: "Psalm 119:105", translation: "WEB" },
+                { text: "But seek first the kingdom of God and his righteousness, and all these things will be added to you.", reference: "Matthew 6:33", translation: "WEB" },
+                { text: "I can do all things through him who strengthens me.", reference: "Philippians 4:13", translation: "WEB" }
+            ],
+            afternoon: [
+                { text: "Come to me, all who labor and are heavy laden, and I will give you rest.", reference: "Matthew 11:28", translation: "WEB" },
+                { text: "And let us not grow weary of doing good, for in due season we will reap, if we do not give up.", reference: "Galatians 6:9", translation: "WEB" },
+                { text: "Trust in the Lord with all your heart, and do not lean on your own understanding.", reference: "Proverbs 3:5", translation: "WEB" }
+            ],
+            evening: [
+                { text: "In peace I will both lie down and sleep; for you alone, O Lord, make me dwell in safety.", reference: "Psalm 4:8", translation: "WEB" },
+                { text: "The Lord will keep your going out and your coming in from this time forth and forevermore.", reference: "Psalm 121:8", translation: "WEB" },
+                { text: "It is vain for you to rise up early, to sit up late, to eat the bread of sorrows; for so he gives his beloved sleep.", reference: "Psalm 127:2", translation: "WEB" }
+            ],
+            night: [
+                { text: "When I look at your heavens, the work of your fingers, the moon and the stars, which you have set in place, what is man that you are mindful of him, and the son of man that you care for him?", reference: "Psalm 8:3-4", translation: "WEB" },
+                { text: "He determines the number of the stars; he gives to all of them their names.", reference: "Psalm 147:4", translation: "WEB" },
+                { text: "The heavens declare the glory of God, and the sky above proclaims his handiwork.", reference: "Psalm 19:1", translation: "WEB" }
+            ]
+        };
+
+        // Sample community posts
+        const samplePosts = [
+            {
+                id: 1,
+                user: { name: "Grace M.", avatar: "GM", color: "#e74c3c" },
+                time: "2 hours ago",
+                verse: { text: "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope.", reference: "Jeremiah 29:11", translation: "WEB" },
+                caption: "This verse has been such a comfort during this season of uncertainty. God's plans are always good!",
+                likes: 12,
+                comments: 3,
+                liked: false
+            },
+            {
+                id: 2,
+                user: { name: "David T.", avatar: "DT", color: "#3498db" },
+                time: "5 hours ago",
+                verse: { text: "But he said to me, 'My grace is sufficient for you, for my power is made perfect in weakness.' Therefore I will boast all the more gladly of my weaknesses, so that the power of Christ may rest upon me.", reference: "2 Corinthians 12:9", translation: "WEB" },
+                caption: "Learning to rely on God's strength rather than my own. His grace is truly sufficient.",
+                likes: 24,
+                comments: 7,
+                liked: true
+            }
+        ];
+
+        // App state
+        let appState = {
+            currentPeriod: 'morning',
+            currentVerseIndex: 0,
+            displayMode: 'auto',
+            translation: 'web',
+            favorites: [],
+            viewedVerses: 0,
+            sharedVerses: 0,
+            favoritedVerses: 0,
+            currentStreak: 1,
+            lastVisitDate: new Date().toDateString(),
+            posts: [...samplePosts],
+            userProfile: {
+                name: "Verse Lover",
+                avatar: "VL",
+                color: "#9b59b6",
+                bio: "Sharing daily inspiration from Scripture",
+                posts: 0,
+                likes: 0
+            }
+        };
+
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const modeIndicator = document.getElementById('modeIndicator');
+        const modeText = document.getElementById('modeText');
+        const countdown = document.getElementById('countdown');
+        const periodElements = document.querySelectorAll('.period');
+        const translationSelect = document.getElementById('translationSelect');
+        const displayModeSelect = document.getElementById('displayModeSelect');
+        const verseText = document.getElementById('verseText');
+        const verseReference = document.getElementById('verseReference');
+        const verseTimeBadge = document.getElementById('verseTimeBadge');
+        const verseTranslationBadge = document.getElementById('verseTranslationBadge');
+        const favoriteVerse = document.getElementById('favoriteVerse');
+        const addNote = document.getElementById('addNote');
+        const previousVerse = document.getElementById('previousVerse');
+        const nextVerse = document.getElementById('nextVerse');
+        const shareButton = document.getElementById('shareButton');
+        const scheduleButton = document.getElementById('scheduleButton');
+        const versesViewed = document.getElementById('versesViewed');
+        const versesShared = document.getElementById('versesShared');
+        const versesFavorited = document.getElementById('versesFavorited');
+        const currentStreak = document.getElementById('currentStreak');
+        const toggleSocial = document.getElementById('toggleSocial');
+        const socialContent = document.getElementById('socialContent');
+        const socialTabs = document.querySelectorAll('.social-tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const createPost = document.getElementById('createPost');
+        const createPostModal = document.getElementById('createPostModal');
+        const closePostModal = document.getElementById('closePostModal');
+        const cancelPost = document.getElementById('cancelPost');
+        const publishPost = document.getElementById('publishPost');
+        const postVersePreview = document.getElementById('postVersePreview');
+        const feedContainer = document.getElementById('feedContainer');
+        const profileName = document.getElementById('profileName');
+        const profileBio = document.getElementById('profileBio');
+        const postsCount = document.getElementById('postsCount');
+        const likesCount = document.getElementById('likesCount');
+        const profilePosts = document.getElementById('profilePosts');
+        const userAvatar = document.getElementById('userAvatar');
+        const notification = document.getElementById('notification');
+        const notificationTitle = document.getElementById('notificationTitle');
+        const notificationMessage = document.getElementById('notificationMessage');
+        const notificationClose = document.getElementById('notificationClose');
+
+        // Initialize the app
+        function initApp() {
+            loadState();
+            setupEventListeners();
+            determineTimePeriod();
+            updateVerseDisplay();
+            updateStats();
+            renderCommunityFeed();
+            updateUserProfile();
+            checkStreak();
+        }
+
+        // Load state from localStorage
+        function loadState() {
+            const savedState = localStorage.getItem('verseCuratorState');
+            if (savedState) {
+                const parsedState = JSON.parse(savedState);
+                appState = { ...appState, ...parsedState };
+                
+                // Update UI with saved state
+                translationSelect.value = appState.translation;
+                displayModeSelect.value = appState.displayMode;
+                
+                // Update stats
+                versesViewed.textContent = appState.viewedVerses;
+                versesShared.textContent = appState.sharedVerses;
+                versesFavorited.textContent = appState.favoritedVerses;
+                currentStreak.textContent = appState.currentStreak;
+            }
+        }
+
+        // Save state to localStorage
+        function saveState() {
+            localStorage.setItem('verseCuratorState', JSON.stringify(appState));
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Theme toggle
+            themeToggle.addEventListener('click', toggleTheme);
+            
+            // Display mode change
+            displayModeSelect.addEventListener('change', handleDisplayModeChange);
+            
+            // Translation change
+            translationSelect.addEventListener('change', handleTranslationChange);
+            
+            // Period selection
+            periodElements.forEach(period => {
+                period.addEventListener('click', () => {
+                    if (appState.displayMode === 'manual') {
+                        const periodType = period.getAttribute('data-period');
+                        setPeriod(periodType);
+                    }
+                });
+            });
+            
+            // Verse navigation
+            previousVerse.addEventListener('click', showPreviousVerse);
+            nextVerse.addEventListener('click', showNextVerse);
+            
+            // Verse actions
+            favoriteVerse.addEventListener('click', toggleFavorite);
+            shareButton.addEventListener('click', shareVerse);
+            scheduleButton.addEventListener('click', scheduleReminder);
+            
+            // Social features
+            toggleSocial.addEventListener('click', toggleSocialSection);
+            
+            // Tab switching
+            socialTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    switchTab(tabId);
+                });
+            });
+            
+            // Post creation
+            createPost.addEventListener('click', openCreatePostModal);
+            closePostModal.addEventListener('click', closeModal);
+            cancelPost.addEventListener('click', closeModal);
+            publishPost.addEventListener('click', publishNewPost);
+            
+            // Notification
+            notificationClose.addEventListener('click', hideNotification);
+            
+            // Auto update countdown
+            setInterval(updateCountdown, 1000);
+        }
+
+        // Determine time period based on current time
+        function determineTimePeriod() {
+            if (appState.displayMode === 'manual') return;
+            
+            const hour = new Date().getHours();
+            let period;
+            
+            if (hour >= 5 && hour < 12) period = 'morning';
+            else if (hour >= 12 && hour < 15) period = 'day';
+            else if (hour >= 15 && hour < 18) period = 'afternoon';
+            else if (hour >= 18 && hour < 22) period = 'evening';
+            else period = 'night';
+            
+            setPeriod(period);
+        }
+
+        // Set the current period
+        function setPeriod(period) {
+            appState.currentPeriod = period;
+            appState.currentVerseIndex = 0;
+            
+            // Update period indicators
+            periodElements.forEach(p => {
+                if (p.getAttribute('data-period') === period) {
+                    p.classList.add('active');
+                    if (appState.displayMode === 'manual') {
+                        p.classList.add('manual-override');
+                    } else {
+                        p.classList.remove('manual-override');
+                    }
+                } else {
+                    p.classList.remove('active', 'manual-override');
+                }
+            });
+            
+            // Update mode indicator
+            if (appState.displayMode === 'auto') {
+                modeIndicator.className = 'mode-indicator auto';
+                modeText.textContent = `Auto Mode - ${capitalizeFirstLetter(period)}`;
+            } else {
+                modeIndicator.className = 'mode-indicator manual';
+                modeText.textContent = `Manual Mode - ${capitalizeFirstLetter(period)}`;
+            }
+            
+            updateVerseDisplay();
+        }
+
+        // Update the verse display
+        function updateVerseDisplay() {
+            const verses = sampleVerses[appState.currentPeriod];
+            if (!verses || verses.length === 0) return;
+            
+            const verse = verses[appState.currentVerseIndex];
+            verseText.textContent = verse.text;
+            verseReference.textContent = verse.reference;
+            
+            // Update badges
+            verseTimeBadge.textContent = getPeriodIcon(appState.currentPeriod) + ' ' + capitalizeFirstLetter(appState.currentPeriod);
+            verseTranslationBadge.textContent = appState.translation.toUpperCase();
+            
+            // Update favorite button
+            const isFavorited = appState.favorites.some(fav => 
+                fav.text === verse.text && fav.reference === verse.reference
+            );
+            
+            const favoriteIcon = favoriteVerse.querySelector('i');
+            if (isFavorited) {
+                favoriteIcon.className = 'fas fa-heart';
+                favoriteVerse.classList.add('active');
+            } else {
+                favoriteIcon.className = 'far fa-heart';
+                favoriteVerse.classList.remove('active');
+            }
+            
+            // Update stats
+            if (!verse.viewed) {
+                verse.viewed = true;
+                appState.viewedVerses++;
+                versesViewed.textContent = appState.viewedVerses;
+                saveState();
+            }
+        }
+
+        // Get icon for time period
+        function getPeriodIcon(period) {
+            const icons = {
+                morning: '🌅',
+                day: '☀️',
+                afternoon: '⛅',
+                evening: '🌇',
+                night: '🌙'
+            };
+            return icons[period] || '📖';
+        }
+
+        // Toggle theme between light and dark
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('verseCuratorTheme', isDarkMode ? 'dark' : 'light');
+        }
+
+        // Handle display mode change
+        function handleDisplayModeChange() {
+            appState.displayMode = displayModeSelect.value;
+            saveState();
+            
+            if (appState.displayMode === 'auto') {
+                determineTimePeriod();
+            } else {
+                setPeriod(appState.currentPeriod);
+            }
+        }
+
+        // Handle translation change
+        function handleTranslationChange() {
+            appState.translation = translationSelect.value;
+            saveState();
+            updateVerseDisplay();
+        }
+
+        // Show previous verse
+        function showPreviousVerse() {
+            const verses = sampleVerses[appState.currentPeriod];
+            if (verses.length === 0) return;
+            
+            appState.currentVerseIndex = (appState.currentVerseIndex - 1 + verses.length) % verses.length;
+            updateVerseDisplay();
+        }
+
+        // Show next verse
+        function showNextVerse() {
+            const verses = sampleVerses[appState.currentPeriod];
+            if (verses.length === 0) return;
+            
+            appState.currentVerseIndex = (appState.currentVerseIndex + 1) % verses.length;
+            updateVerseDisplay();
+        }
+
+        // Toggle favorite status of current verse
+        function toggleFavorite() {
+            const verses = sampleVerses[appState.currentPeriod];
+            if (verses.length === 0) return;
+            
+            const verse = verses[appState.currentVerseIndex];
+            const isFavorited = appState.favorites.some(fav => 
+                fav.text === verse.text && fav.reference === verse.reference
+            );
+            
+            if (isFavorited) {
+                appState.favorites = appState.favorites.filter(fav => 
+                    !(fav.text === verse.text && fav.reference === verse.reference)
+                );
+                appState.favoritedVerses = Math.max(0, appState.favoritedVerses - 1);
+            } else {
+                appState.favorites.push({
+                    text: verse.text,
+                    reference: verse.reference,
+                    period: appState.currentPeriod,
+                    translation: appState.translation
+                });
+                appState.favoritedVerses++;
+            }
+            
+            versesFavorited.textContent = appState.favoritedVerses;
+            saveState();
+            updateVerseDisplay();
+            
+            // Show notification
+            showNotification(
+                isFavorited ? 'Removed from Favorites' : 'Added to Favorites',
+                isFavorited ? 'Verse removed from your favorites.' : 'Verse added to your favorites!',
+                isFavorited ? 'info' : 'success'
+            );
+        }
+
+        // Share current verse
+        function shareVerse() {
+            const verses = sampleVerses[appState.currentPeriod];
+            if (verses.length === 0) return;
+            
+            const verse = verses[appState.currentVerseIndex];
+            
+            // In a real app, this would use the Web Share API or copy to clipboard
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Bible Verse',
+                    text: `${verse.text} - ${verse.reference}`,
+                    url: window.location.href
+                })
+                .then(() => {
+                    appState.sharedVerses++;
+                    versesShared.textContent = appState.sharedVerses;
+                    saveState();
+                    showNotification('Shared Successfully', 'Verse shared with others!', 'success');
+                })
+                .catch(error => {
+                    console.log('Error sharing:', error);
+                    showNotification('Share Failed', 'Could not share the verse.', 'error');
+                });
+            } else {
+                // Fallback: copy to clipboard
+                const textToCopy = `${verse.text} - ${verse.reference}`;
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => {
+                        appState.sharedVerses++;
+                        versesShared.textContent = appState.sharedVerses;
+                        saveState();
+                        showNotification('Copied to Clipboard', 'Verse text copied to clipboard!', 'success');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        showNotification('Copy Failed', 'Could not copy verse to clipboard.', 'error');
+                    });
+            }
+        }
+
+        // Schedule reminder for verse
+        function scheduleReminder() {
+            // In a real app, this would integrate with device calendar/reminders
+            showNotification(
+                'Reminder Set',
+                'Daily reminder set for this verse at your current time period.',
+                'success'
+            );
+        }
+
+        // Toggle social section visibility
+        function toggleSocialSection() {
+            const isActive = socialContent.style.display === 'block';
+            socialContent.style.display = isActive ? 'none' : 'block';
+            toggleSocial.classList.toggle('active', !isActive);
+        }
+
+        // Switch between tabs in social section
+        function switchTab(tabId) {
+            // Update tab buttons
+            socialTabs.forEach(tab => {
+                if (tab.getAttribute('data-tab') === tabId) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            // Update tab content
+            tabContents.forEach(content => {
+                if (content.id === `${tabId}Tab`) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+
+        // Open create post modal
+        function openCreatePostModal() {
+            const verses = sampleVerses[appState.currentPeriod];
+            if (verses.length === 0) return;
+            
+            const verse = verses[appState.currentVerseIndex];
+            postVersePreview.innerHTML = `
+                <div class="post-verse-text">${verse.text}</div>
+                <div class="post-verse-reference">${verse.reference} (${appState.translation.toUpperCase()})</div>
+            `;
+            
+            createPostModal.style.display = 'flex';
+        }
+
+        // Close modal
+        function closeModal() {
+            createPostModal.style.display = 'none';
+        }
+
+        // Publish new post
+        function publishNewPost() {
+            const caption = document.getElementById('postCaption').value;
+            const verses = sampleVerses[appState.currentPeriod];
+            if (verses.length === 0) return;
+            
+            const verse = verses[appState.currentVerseIndex];
+            
+            // Create new post
+            const newPost = {
+                id: Date.now(),
+                user: appState.userProfile,
+                time: 'Just now',
+                verse: {
+                    text: verse.text,
+                    reference: verse.reference,
+                    translation: appState.translation.toUpperCase()
+                },
+                caption: caption,
+                likes: 0,
+                comments: 0,
+                liked: false
+            };
+            
+            // Add to posts
+            appState.posts.unshift(newPost);
+            
+            // Update user stats
+            appState.userProfile.posts++;
+            appState.sharedVerses++;
+            
+            // Update UI
+            versesShared.textContent = appState.sharedVerses;
+            renderCommunityFeed();
+            updateUserProfile();
+            saveState();
+            
+            // Close modal and show notification
+            closeModal();
+            showNotification('Post Published', 'Your verse has been shared with the community!', 'success');
+            
+            // Clear caption
+            document.getElementById('postCaption').value = '';
+        }
+
+        // Render community feed
+        function renderCommunityFeed() {
+            if (!feedContainer) return;
+            
+            feedContainer.innerHTML = '';
+            
+            if (appState.posts.length === 0) {
+                feedContainer.innerHTML = `
+                    <div class="feed-post">
+                        <p style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                            No posts yet. Be the first to share a verse!
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+            
+            appState.posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'feed-post';
+                postElement.innerHTML = `
+                    <div class="post-header">
+                        <div class="post-avatar" style="background: ${post.user.color}">${post.user.avatar}</div>
+                        <div class="post-user-info">
+                            <div class="post-user-name">${post.user.name}</div>
+                            <div class="post-time">${post.time}</div>
+                        </div>
+                    </div>
+                    <div class="post-verse">
+                        <div class="post-verse-text">${post.verse.text}</div>
+                        <div class="post-verse-reference">${post.verse.reference} (${post.verse.translation})</div>
+                    </div>
+                    ${post.caption ? `<div class="post-caption">${post.caption}</div>` : ''}
+                    <div class="post-actions">
+                        <button class="post-action ${post.liked ? 'liked' : ''}" data-id="${post.id}">
+                            <i class="fas fa-heart"></i>
+                            <span>${post.likes}</span>
+                        </button>
+                        <button class="post-action" data-id="${post.id}">
+                            <i class="fas fa-comment"></i>
+                            <span>${post.comments}</span>
+                        </button>
+                        <button class="post-action" data-id="${post.id}">
+                            <i class="fas fa-share"></i>
+                        </button>
+                    </div>
+                `;
+                
+                feedContainer.appendChild(postElement);
+            });
+            
+            // Add event listeners for post actions
+            document.querySelectorAll('.post-action').forEach(button => {
+                button.addEventListener('click', function() {
+                    const postId = parseInt(this.getAttribute('data-id'));
+                    handlePostAction(postId, this);
+                });
+            });
+        }
+
+        // Handle post actions (like, comment, share)
+        function handlePostAction(postId, button) {
+            const post = appState.posts.find(p => p.id === postId);
+            if (!post) return;
+            
+            if (button.querySelector('.fa-heart')) {
+                // Like action
+                if (post.liked) {
+                    post.likes--;
+                    post.liked = false;
+                    button.classList.remove('liked');
+                    appState.userProfile.likes = Math.max(0, appState.userProfile.likes - 1);
+                } else {
+                    post.likes++;
+                    post.liked = true;
+                    button.classList.add('liked');
+                    appState.userProfile.likes++;
+                }
+                button.querySelector('span').textContent = post.likes;
+                likesCount.textContent = appState.userProfile.likes;
+                saveState();
+            } else if (button.querySelector('.fa-comment')) {
+                // Comment action - in a real app, this would open a comment dialog
+                showNotification('Comments', 'Comment feature would open here in a full implementation.', 'info');
+            } else if (button.querySelector('.fa-share')) {
+                // Share action
+                sharePost(post);
+            }
+        }
+
+        // Share a post
+        function sharePost(post) {
+            const textToShare = `${post.verse.text} - ${post.verse.reference}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Bible Verse',
+                    text: textToShare,
+                    url: window.location.href
+                })
+                .then(() => {
+                    showNotification('Shared Successfully', 'Post shared with others!', 'success');
+                })
+                .catch(error => {
+                    console.log('Error sharing:', error);
+                });
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(textToShare)
+                    .then(() => {
+                        showNotification('Copied to Clipboard', 'Post text copied to clipboard!', 'success');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        showNotification('Copy Failed', 'Could not copy post to clipboard.', 'error');
+                    });
+            }
+        }
+
+        // Update user profile display
+        function updateUserProfile() {
+            if (!profileName) return;
+            
+            profileName.textContent = appState.userProfile.name;
+            profileBio.textContent = appState.userProfile.bio;
+            postsCount.textContent = appState.userProfile.posts;
+            likesCount.textContent = appState.userProfile.likes;
+            userAvatar.textContent = appState.userProfile.avatar;
+            userAvatar.style.background = appState.userProfile.color;
+            
+            // Render user's posts
+            renderUserPosts();
+        }
+
+        // Render user's posts in profile
+        function renderUserPosts() {
+            if (!profilePosts) return;
+            
+            profilePosts.innerHTML = '';
+            
+            const userPosts = appState.posts.filter(post => post.user.name === appState.userProfile.name);
+            
+            if (userPosts.length === 0) {
+                profilePosts.innerHTML = `
+                    <div class="feed-post">
+                        <p style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                            You haven't shared any verses yet.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+            
+            userPosts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'feed-post';
+                postElement.innerHTML = `
+                    <div class="post-header">
+                        <div class="post-avatar" style="background: ${post.user.color}">${post.user.avatar}</div>
+                        <div class="post-user-info">
+                            <div class="post-user-name">${post.user.name}</div>
+                            <div class="post-time">${post.time}</div>
+                        </div>
+                    </div>
+                    <div class="post-verse">
+                        <div class="post-verse-text">${post.verse.text}</div>
+                        <div class="post-verse-reference">${post.verse.reference} (${post.verse.translation})</div>
+                    </div>
+                    ${post.caption ? `<div class="post-caption">${post.caption}</div>` : ''}
+                    <div class="post-actions">
+                        <button class="post-action ${post.liked ? 'liked' : ''}">
+                            <i class="fas fa-heart"></i>
+                            <span>${post.likes}</span>
+                        </button>
+                        <button class="post-action">
+                            <i class="fas fa-comment"></i>
+                            <span>${post.comments}</span>
+                        </button>
+                    </div>
+                `;
+                
+                profilePosts.appendChild(postElement);
+            });
+        }
+
+        // Update countdown to next period
+        function updateCountdown() {
+            if (appState.displayMode === 'manual') {
+                countdown.textContent = 'Manual Mode';
+                return;
+            }
+            
+            const now = new Date();
+            const hour = now.getHours();
+            let nextChange;
+            
+            if (hour < 5) nextChange = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 5, 0, 0);
+            else if (hour < 12) nextChange = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0);
+            else if (hour < 15) nextChange = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 15, 0, 0);
+            else if (hour < 18) nextChange = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0);
+            else if (hour < 22) nextChange = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 22, 0, 0);
+            else nextChange = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 5, 0, 0);
+            
+            const diff = nextChange - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            countdown.textContent = `${hours}h ${minutes}m`;
+        }
+
+        // Check and update streak
+        function checkStreak() {
+            const today = new Date().toDateString();
+            const lastVisit = new Date(appState.lastVisitDate);
+            const todayDate = new Date(today);
+            
+            // If last visit was yesterday, increment streak
+            const diffTime = todayDate - lastVisit;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 1) {
+                appState.currentStreak++;
+            } else if (diffDays > 1) {
+                appState.currentStreak = 1; // Reset streak if missed a day
+            }
+            // If same day, streak remains unchanged
+            
+            appState.lastVisitDate = today;
+            currentStreak.textContent = appState.currentStreak;
+            saveState();
+        }
+
+        // Show notification
+        function showNotification(title, message, type = 'info') {
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+            
+            // Set notification type
+            notification.className = 'notification';
+            notification.classList.add(type);
+            
+            // Show notification
+            notification.classList.add('show');
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                hideNotification();
+            }, 5000);
+        }
+
+        // Hide notification
+        function hideNotification() {
+            notification.classList.remove('show');
+        }
+
+        // Update stats display
+        function updateStats() {
+            versesViewed.textContent = appState.viewedVerses;
+            versesShared.textContent = appState.sharedVerses;
+            versesFavorited.textContent = appState.favoritedVerses;
+            currentStreak.textContent = appState.currentStreak;
+        }
+
+        // Utility function to capitalize first letter
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('verseCuratorTheme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
